@@ -45,7 +45,6 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.material3)
 
             implementation(libs.bundles.ktor)

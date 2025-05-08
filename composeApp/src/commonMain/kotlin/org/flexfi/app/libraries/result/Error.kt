@@ -1,3 +1,3 @@
 package org.flexfi.app.libraries.result
 
-interface Error
+class Error(val throwable: Throwable)

@@ -63,7 +63,6 @@ ktor = [
 ]
 
 koin = [
-    "koin-android",
     "koin-core",
     "koin-compose",
     "koin-compose-viewmodel",
