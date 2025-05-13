@@ -78,7 +78,7 @@ private fun HomeScreen(
                 .padding(paddingValues)
                 .padding(horizontal = 24.dp),
         ) {
-            VerticalSpacer(32.dp)
+            VerticalSpacer(16.dp)
 
             AnimatedVisibility(
                 visible = !animateLaunch,
@@ -122,8 +122,6 @@ private fun HomeScreen(
                     lineHeight = 16.sp
                 )
             }
-
-            VerticalSpacer(32.dp)
 
             Spacer(Modifier.weight(1f))
 

@@ -23,13 +23,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import io.flexfi.app.feature.register.state.UiState
 import io.flexfi.app.libraries.design.component.button.ButtonAccent
 import io.flexfi.app.libraries.design.component.checkbox.FlexfiCheckbox
@@ -38,23 +39,27 @@ import io.flexfi.app.libraries.design.component.textfield.NeonTextField
 import io.flexfi.app.libraries.design.token.color.FlexfiColors
 import io.flexfi.app.libraries.design.token.font.DaysOneFontFamily
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier = Modifier,
+    viewModel: RegisterViewModel = koinViewModel(),
 ) {
+    val state by viewModel.uiState.collectAsStateWithLifecycle()
+
     RegisterScreen(
         modifier = modifier,
-        state = UiState(),
-        onFirstNameChange = {},
-        onLastNameChange = {},
-        onEmailChange = {},
-        onReferralCodeChange = {},
-        onPasswordChange = {},
-        onConfirmPasswordChange = {},
-        onGdprCheckChange = {},
-        onPrivacyPolicyCheckChange = {},
-        onRegisterClick = {},
+        state = state,
+        onFirstNameChange = viewModel::onFirstNameChange,
+        onLastNameChange = viewModel::onLastNameChange,
+        onEmailChange = viewModel::onEmailChange,
+        onReferralCodeChange = viewModel::onReferralCodeChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onConfirmPasswordChange = viewModel::onConfirmPasswordChange,
+        onGdprCheckChange = viewModel::onGdprAcceptedChange,
+        onPrivacyPolicyCheckChange = viewModel::onPrivacyPolicyAcceptedChange,
+        onRegisterClick = viewModel::onRegisterButtonClick,
     )
 }
 
@@ -67,8 +72,8 @@ private fun RegisterScreen(
     onReferralCodeChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onConfirmPasswordChange: (String) -> Unit,
-    onGdprCheckChange: (Boolean) -> Unit,
-    onPrivacyPolicyCheckChange: (Boolean) -> Unit,
+    onGdprCheckChange: () -> Unit,
+    onPrivacyPolicyCheckChange: () -> Unit,
     onRegisterClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -96,10 +101,9 @@ private fun RegisterScreen(
 
             Text(
                 modifier = Modifier
-                    .padding(vertical = 32.dp, horizontal = 24.dp)
-                    .onGloballyPositioned {
-                        titleHeightDp = density.run { it.size.height.toDp() }
-                    },
+                    .padding(horizontal = 24.dp)
+                    .padding(top = 16.dp)
+                    .onSizeChanged { titleHeightDp = density.run { it.height.toDp() } },
                 text = "Create your\naccount",
                 fontFamily = DaysOneFontFamily(),
                 fontSize = 30.sp,
@@ -111,8 +115,10 @@ private fun RegisterScreen(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
-                    .padding(paddingValues)
-                    .padding(top = titleHeightDp + 32.dp)
+                    .padding(
+                        bottom = paddingValues.calculateBottomPadding(),
+                        top = titleHeightDp + 24.dp + 16.dp,
+                    )
                     .padding(horizontal = 24.dp),
             ) {
                 Surface(
@@ -190,13 +196,13 @@ private fun RegisterScreen(
                         FlexfiCheckbox(
                             label = "I agree to receive marketing emails (GDPR)",
                             checked = state.gdprAccepted,
-                            onCheckedChange = onGdprCheckChange,
+                            onCheckedChange = { onGdprCheckChange() },
                         )
 
                         FlexfiCheckbox(
                             label = "I accept the Privacy Policy",
                             checked = state.privacyPolicyAccepted,
-                            onCheckedChange = onPrivacyPolicyCheckChange,
+                            onCheckedChange = { onPrivacyPolicyCheckChange() },
                         )
 
                         VerticalSpacer(4.dp)
