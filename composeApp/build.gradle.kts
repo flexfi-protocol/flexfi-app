@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -33,6 +32,7 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.koin.android)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
@@ -46,6 +46,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.jetbrains.material3)
+            implementation(libs.kottie)
+            implementation(libs.navigation)
 
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.koin)
@@ -54,11 +56,11 @@ kotlin {
 }
 
 android {
-    namespace = "org.flexfi.app"
+    namespace = "io.flexfi.app"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.flexfi.app"
+        applicationId = "io.flexfi.app"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
