@@ -25,7 +25,7 @@ fun ButtonAccent(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.filledTonalButtonColors(
-            containerColor = FlexfiColors.lightBlue,
+            containerColor = FlexfiColors.mediumBlue,
             contentColor = FlexfiColors.darkBlue,
         )
     ) {

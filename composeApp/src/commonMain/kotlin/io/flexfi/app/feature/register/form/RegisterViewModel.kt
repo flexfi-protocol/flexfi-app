@@ -1,9 +1,9 @@
-package io.flexfi.app.feature.register
+package io.flexfi.app.feature.register.form
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.flexfi.app.domain.session.SessionRepository
-import io.flexfi.app.feature.register.state.UiState
+import io.flexfi.app.feature.register.form.UiState
 import io.flexfi.app.libraries.result.onFailure
 import io.flexfi.app.libraries.result.onSuccess
 import kotlinx.coroutines.flow.MutableStateFlow

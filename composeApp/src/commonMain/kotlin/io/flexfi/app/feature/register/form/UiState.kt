@@ -1,4 +1,4 @@
-package io.flexfi.app.feature.register.state
+package io.flexfi.app.feature.register.form
 
 data class UiState(
     val email: String = "",

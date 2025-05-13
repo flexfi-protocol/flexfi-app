@@ -38,7 +38,7 @@ fun NeonTextField(
                 text = label + if (required) " *" else "",
                 fontFamily = MontserratFontFamily(),
                 fontSize = 14.sp,
-                color = FlexfiColors.lightBlue,
+                color = FlexfiColors.mediumBlue,
                 maxLines = 1,
             )
         },
@@ -47,10 +47,10 @@ fun NeonTextField(
             focusedTextColor = Color.White,
             unfocusedTextColor = Color.White,
             cursorColor = FlexfiColors.lightBlue,
-            focusedLabelColor = FlexfiColors.lightBlue,
+            focusedLabelColor = FlexfiColors.mediumBlue,
             focusedPlaceholderColor = Color.White.copy(alpha = .3f),
             unfocusedPlaceholderColor = Color.White.copy(alpha = .3f),
-            focusedBorderColor = FlexfiColors.lightBlue,
+            focusedBorderColor = FlexfiColors.mediumBlue,
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = keyboardImeAction,

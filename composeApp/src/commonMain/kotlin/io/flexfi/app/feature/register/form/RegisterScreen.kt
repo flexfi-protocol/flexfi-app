@@ -1,4 +1,4 @@
-package io.flexfi.app.feature.register
+package io.flexfi.app.feature.register.form
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -31,7 +31,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import io.flexfi.app.feature.register.state.UiState
 import io.flexfi.app.libraries.design.component.button.ButtonAccent
 import io.flexfi.app.libraries.design.component.checkbox.FlexfiCheckbox
 import io.flexfi.app.libraries.design.component.spacer.VerticalSpacer
@@ -107,7 +106,7 @@ private fun RegisterScreen(
                 text = "Create your\naccount",
                 fontFamily = DaysOneFontFamily(),
                 fontSize = 30.sp,
-                lineHeight = 32.sp,
+                lineHeight = 34.sp,
                 color = Color.White,
             )
 

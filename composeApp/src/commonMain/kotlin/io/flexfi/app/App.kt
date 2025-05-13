@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import io.flexfi.app.feature.home.HomeScreen
-import io.flexfi.app.feature.register.RegisterScreen
+import io.flexfi.app.feature.register.congratulation.WaitlistCongratulationScreen
+import io.flexfi.app.feature.register.form.RegisterScreen
 import io.flexfi.app.libraries.navigation.Screen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -30,9 +31,11 @@ fun App() {
             }
 
             composable<Screen.Register> {
-                RegisterScreen(
-                    modifier = Modifier.fillMaxSize()
-                )
+                RegisterScreen(modifier = Modifier.fillMaxSize())
+            }
+
+            composable<Screen.WaitlistCongratulation> {
+                WaitlistCongratulationScreen(modifier = Modifier.fillMaxSize())
             }
         }
     }

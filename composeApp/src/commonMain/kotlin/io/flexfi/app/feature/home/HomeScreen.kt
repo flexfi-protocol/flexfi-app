@@ -95,7 +95,7 @@ private fun HomeScreen(
                     },
                     fontFamily = DaysOneFontFamily(),
                     fontSize = 30.sp,
-                    lineHeight = 32.sp
+                    lineHeight = 34.sp
                 )
             }
 
@@ -119,7 +119,7 @@ private fun HomeScreen(
                     },
                     fontFamily = MontserratFontFamily(),
                     fontSize = 14.sp,
-                    lineHeight = 16.sp
+                    lineHeight = 18.sp
                 )
             }
 
