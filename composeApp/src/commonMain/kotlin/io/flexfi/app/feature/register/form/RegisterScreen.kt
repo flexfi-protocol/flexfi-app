@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +31,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle.State
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import io.flexfi.app.libraries.design.component.button.ButtonAccent
 import io.flexfi.app.libraries.design.component.checkbox.FlexfiCheckbox
 import io.flexfi.app.libraries.design.component.spacer.VerticalSpacer
@@ -42,10 +46,23 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterScreen(
+    onNavToCongratulation: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: RegisterViewModel = koinViewModel(),
 ) {
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(state = State.RESUMED) {
+            viewModel.uiEvents.collect { event ->
+                when (event) {
+                    UiEvent.StartCongratulationUi -> onNavToCongratulation()
+                }
+            }
+        }
+    }
 
     RegisterScreen(
         modifier = modifier,
@@ -130,7 +147,7 @@ private fun RegisterScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         NeonTextField(
                             modifier = Modifier.fillMaxWidth(),
@@ -140,6 +157,7 @@ private fun RegisterScreen(
                             placeholder = "you@example.com",
                             required = true,
                             keyboardType = KeyboardType.Email,
+                            error = state.emailError,
                         )
 
                         NeonTextField(
@@ -149,6 +167,7 @@ private fun RegisterScreen(
                             label = "First Name",
                             placeholder = "Your first name",
                             required = true,
+                            error = state.firstNameError,
                         )
 
                         NeonTextField(
@@ -158,6 +177,7 @@ private fun RegisterScreen(
                             label = "Last Name",
                             placeholder = "Your last name",
                             required = true,
+                            error = state.lastNameError,
                         )
 
                         NeonTextField(
@@ -177,6 +197,7 @@ private fun RegisterScreen(
                             placeholder = "Your password",
                             required = true,
                             visualTransformation = PasswordVisualTransformation(),
+                            error = state.passwordError,
                         )
 
                         NeonTextField(
@@ -188,6 +209,7 @@ private fun RegisterScreen(
                             required = true,
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardImeAction = ImeAction.Done,
+                            error = state.confirmPasswordError,
                         )
 
                         VerticalSpacer(4.dp)
@@ -211,6 +233,7 @@ private fun RegisterScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = 8.dp),
                             text = "Register",
+                            loading = state.loading,
                             onClick = {
                                 onRegisterClick()
                             },

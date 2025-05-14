@@ -25,6 +25,7 @@ fun NeonTextField(
     placeholder: String,
     required: Boolean,
     modifier: Modifier = Modifier,
+    error: String? = null,
     keyboardImeAction: ImeAction = ImeAction.Next,
     keyboardType: KeyboardType = KeyboardType.Text,
     visualTransformation: VisualTransformation = VisualTransformation.None,
@@ -51,6 +52,7 @@ fun NeonTextField(
             focusedPlaceholderColor = Color.White.copy(alpha = .3f),
             unfocusedPlaceholderColor = Color.White.copy(alpha = .3f),
             focusedBorderColor = FlexfiColors.mediumBlue,
+            errorTextColor = Color.White
         ),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = keyboardImeAction,
@@ -58,6 +60,17 @@ fun NeonTextField(
         ),
         visualTransformation = visualTransformation,
         shape = RoundedCornerShape(16.dp),
+        isError = error != null,
+        supportingText = {
+            if (error != null) {
+                Text(
+                    text = error,
+                    fontFamily = MontserratFontFamily(),
+                    fontSize = 12.sp,
+                    color = Color.Red,
+                )
+            }
+        }
     )
 }
 

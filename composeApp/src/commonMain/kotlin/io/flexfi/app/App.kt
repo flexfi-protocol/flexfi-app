@@ -31,11 +31,16 @@ fun App() {
             }
 
             composable<Screen.Register> {
-                RegisterScreen(modifier = Modifier.fillMaxSize())
+                RegisterScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    onNavToCongratulation = { navController.navigate(Screen.WaitlistCongratulation) },
+                )
             }
 
             composable<Screen.WaitlistCongratulation> {
-                WaitlistCongratulationScreen(modifier = Modifier.fillMaxSize())
+                WaitlistCongratulationScreen(
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }

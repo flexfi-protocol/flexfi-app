@@ -3,11 +3,10 @@ package io.flexfi.app.feature.register.form
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.flexfi.app.domain.session.SessionRepository
-import io.flexfi.app.feature.register.form.UiState
-import io.flexfi.app.libraries.result.onFailure
-import io.flexfi.app.libraries.result.onSuccess
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -17,6 +16,9 @@ class RegisterViewModel(
 
     private val _uiState = MutableStateFlow(UiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiEvents = Channel<UiEvent>()
+    val uiEvents = _uiEvents.receiveAsFlow()
 
     fun onFirstNameChange(firstName: String) {
         _uiState.update { it.copy(firstName = firstName) }
@@ -53,6 +55,9 @@ class RegisterViewModel(
     fun onRegisterButtonClick() {
         val state = uiState.value
 
+        checkForm()
+        if (!isFormValid()) return
+
         viewModelScope.launch {
             repository.register(
                 email = state.email,
@@ -62,9 +67,66 @@ class RegisterViewModel(
                 referralCodeUsed = state.referralCode.ifBlank { null },
             ).onSuccess {
                 println("Registration successful: $it")
+                _uiEvents.sendEvent(UiEvent.StartCongratulationUi)
             }.onFailure {
-                throw it.throwable
+                println("Registration failed: ${it.message}")
             }
+            _uiState.update { it.copy(loading = false) }
         }
+    }
+
+    private fun checkForm() {
+        val state = uiState.value
+
+        _uiState.update {
+            it.copy(
+                loading = true,
+                firstNameError = if (state.firstName.isBlank()) {
+                    "First name cannot be empty"
+                } else {
+                    null
+                },
+                lastNameError = if (state.firstName.isBlank()) {
+                    "First name cannot be empty"
+                } else {
+                    null
+                },
+                emailError = if (state.email.isBlank()) {
+                    "Email cannot be empty"
+                } else {
+                    null
+                },
+                passwordError = when {
+                    state.password.isBlank() -> "Password cannot be empty"
+                    !isPasswordValid(state.password) -> "Password must be at least 12 characters long and include uppercase, lowercase, a number, and a special character"
+                    else -> null
+                },
+                confirmPasswordError = when {
+                    state.confirmPassword.isBlank() -> "Password cannot be empty"
+                    !isPasswordValid(state.password) -> "Password must be at least 12 characters long and include uppercase, lowercase, a number, and a special character"
+                    state.password != state.confirmPassword -> "Password do not match"
+                    else -> null
+                }
+            )
+        }
+    }
+
+    private fun isPasswordValid(password: String): Boolean {
+        return "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{12,}$".toRegex().matches(password)
+    }
+
+    private fun isFormValid(): Boolean {
+        val state = uiState.value
+        return state.firstNameError == null &&
+                state.lastNameError == null &&
+                state.emailError == null &&
+                state.passwordError == null &&
+                state.confirmPasswordError == null &&
+                state.privacyPolicyAccepted &&
+                state.gdprAccepted
+    }
+
+    private fun <T> Channel<T>.sendEvent(event: T) {
+        viewModelScope.launch { send(event) }
     }
 }
