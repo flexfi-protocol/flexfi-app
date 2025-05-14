@@ -35,7 +35,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.flexfi.app.feature.home.component.RocketLottie
+import io.flexfi.app.feature.home.component.RocketImage
 import io.flexfi.app.libraries.design.component.button.ButtonNeon
 import io.flexfi.app.libraries.design.component.spacer.VerticalSpacer
 import io.flexfi.app.libraries.design.token.color.FlexfiColors
@@ -154,7 +154,7 @@ private fun HomeScreen(
                     .onGloballyPositioned { launchingPadHeightPx = it.size.height },
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                RocketLottie(
+                RocketImage(
                     Modifier
                         .size(200.dp)
                         .align(Alignment.CenterHorizontally)

@@ -17,8 +17,8 @@ import utils.KottieConstants
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-fun RocketLottie(
-    modifier: Modifier = Modifier,
+actual fun RocketImage(
+    modifier: Modifier,
 ) {
     var animation by remember { mutableStateOf("") }
 
