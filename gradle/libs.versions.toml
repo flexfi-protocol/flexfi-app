@@ -9,11 +9,12 @@ androidx-appcompat = "1.7.0"
 androidx-core-ktx = "1.16.0"
 androidx-lifecycle = "2.9.0-beta01"
 androidx-test-junit = "1.2.1"
-compose-multiplatform = "1.7.3"
+compose-multiplatform = "1.8.0"
+datastore-core = "1.1.6"
 junit = "4.13.2"
-kotlin = "2.1.20"
+kotlin = "2.1.21"
 kotlinx-coroutines-core = "1.10.2"
-ksp = "2.1.10-1.0.31"
+ksp = "2.1.21-2.0.1"
 koin = "4.0.4"
 kottie = "2.0.1"
 ktor = "3.1.3"
@@ -32,7 +33,7 @@ androidx-lifecycle-viewmodel-compose= { group = "org.jetbrains.androidx.lifecycl
 androidx-lifecycle-runtime-compose = { group = "org.jetbrains.androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kottie = { group = "io.github.ismai117", name = "kottie", version.ref = "kottie" }
 navigation = { group = "org.jetbrains.androidx.navigation", name = "navigation-compose", version.ref = "androidx-lifecycle" }
-
+datastore-preferences-core = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore-core" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines-core" }
 
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -55,6 +56,7 @@ composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "compose-mu
 composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
 ktor = [

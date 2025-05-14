@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.ksp)
 }
 
 kotlin {
@@ -48,6 +49,8 @@ kotlin {
             implementation(libs.jetbrains.material3)
             implementation(libs.kottie)
             implementation(libs.navigation)
+            implementation(libs.datastore.preferences.core)
+            implementation(libs.kotlinx.coroutines.core)
 
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.koin)
