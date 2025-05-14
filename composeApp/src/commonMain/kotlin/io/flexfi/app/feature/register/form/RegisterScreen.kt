@@ -13,6 +13,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,11 +57,21 @@ fun RegisterScreen(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     LaunchedEffect(lifecycleOwner) {
         lifecycleOwner.repeatOnLifecycle(state = State.RESUMED) {
             viewModel.uiEvents.collect { event ->
                 when (event) {
-                    UiEvent.StartCongratulationUi -> onNavToCongratulation()
+                    is UiEvent.StartCongratulationUi -> onNavToCongratulation()
+
+                    is UiEvent.ShowSnackBar -> {
+                        snackbarHostState.showSnackbar(
+                            message = event.message,
+                            duration = SnackbarDuration.Short,
+                            withDismissAction = true
+                        )
+                    }
                 }
             }
         }
@@ -67,6 +80,7 @@ fun RegisterScreen(
     RegisterScreen(
         modifier = modifier,
         state = state,
+        snackbarHostState = snackbarHostState,
         onFirstNameChange = viewModel::onFirstNameChange,
         onLastNameChange = viewModel::onLastNameChange,
         onEmailChange = viewModel::onEmailChange,
@@ -82,6 +96,7 @@ fun RegisterScreen(
 @Composable
 private fun RegisterScreen(
     state: UiState,
+    snackbarHostState: SnackbarHostState,
     onFirstNameChange: (String) -> Unit,
     onLastNameChange: (String) -> Unit,
     onEmailChange: (String) -> Unit,
@@ -96,6 +111,7 @@ private fun RegisterScreen(
     Scaffold(
         modifier = modifier,
         containerColor = Color.Transparent,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = { },
     ) { paddingValues ->
         Box(
@@ -251,6 +267,7 @@ private fun Preview_RegisterScreen() {
     RegisterScreen(
         modifier = Modifier.fillMaxSize(),
         state = UiState(),
+        snackbarHostState = SnackbarHostState(),
         onFirstNameChange = {},
         onLastNameChange = {},
         onEmailChange = {},

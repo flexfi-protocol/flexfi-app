@@ -53,10 +53,15 @@ class RegisterViewModel(
     }
 
     fun onRegisterButtonClick() {
+        _uiState.update { it.copy(loading = true) }
+
         val state = uiState.value
 
         checkForm()
-        if (!isFormValid()) return
+        if (!isFormValid()) {
+            _uiState.update { it.copy(loading = false) }
+            return
+        }
 
         viewModelScope.launch {
             repository.register(
@@ -70,6 +75,11 @@ class RegisterViewModel(
                 _uiEvents.sendEvent(UiEvent.StartCongratulationUi)
             }.onFailure {
                 println("Registration failed: ${it.message}")
+                _uiEvents.sendEvent(
+                    UiEvent.ShowSnackBar(
+                        message = "An error occurred. Please retry later"
+                    )
+                )
             }
             _uiState.update { it.copy(loading = false) }
         }
@@ -80,7 +90,6 @@ class RegisterViewModel(
 
         _uiState.update {
             it.copy(
-                loading = true,
                 firstNameError = if (state.firstName.isBlank()) {
                     "First name cannot be empty"
                 } else {
