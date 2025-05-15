@@ -148,7 +148,7 @@ private fun RegisterScreen(
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
                     .padding(
-                        bottom = paddingValues.calculateBottomPadding(),
+                        bottom = paddingValues.calculateBottomPadding() + 24.dp,
                         top = titleHeightDp + 24.dp + 16.dp,
                     )
                     .padding(horizontal = 24.dp),
